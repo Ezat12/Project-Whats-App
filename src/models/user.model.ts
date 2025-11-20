@@ -6,6 +6,8 @@ export interface IUser extends mongoose.Document {
   name?: string;
   profilePicture?: string;
   description?: string;
+  isOnline?: boolean;
+  lastSeen?: Date;
   isVerified: boolean;
   verificationCode?: string;
   verificationCodeExpiry?: Date;
@@ -35,6 +37,10 @@ const userSchema = new mongoose.Schema<IUser>(
       type: String,
       maxlength: 150,
     },
+    isOnline: {
+      type: Boolean,
+    },
+    lastSeen: Date,
     isVerified: {
       type: Boolean,
       default: false,

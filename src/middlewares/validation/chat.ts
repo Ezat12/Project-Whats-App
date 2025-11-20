@@ -3,7 +3,7 @@ import asyncHandler from "express-async-handler";
 import { chatValidationSchema } from "../../validations/chatValidation";
 import { ZodError } from "zod";
 
-export const validatorChat = asyncHandler(
+export const validationChat = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const validData = await chatValidationSchema.parseAsync(req.body);

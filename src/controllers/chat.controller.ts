@@ -48,8 +48,38 @@ export const getChatById = expressAsyncHandler(
   }
 );
 
-export const updateLastMessage = expressAsyncHandler(
+export const updateLastMessage = async (
+  chatId: string,
+  senderId: string,
+  lastMessage: string,
+  type: string = "text"
+) => {
+  const chat = await Chat.findByIdAndUpdate(
+    chatId,
+    {
+      lastMessageSender: senderId,
+      lastMessage,
+      lastMessageType: type,
+      updatedAt: new Date(),
+    },
+    { new: true }
+  );
+
+  if (!chat) {
+    throw new ApiError("Chat not found", 404);
+  }
+
+  return chat;
+};
+
+export const deleteChat = expressAsyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    
+    const { chatId } = req.params;
+
+    await Chat.findByIdAndDelete(chatId);
+
+    res
+      .status(200)
+      .json({ status: "success", message: "Chat deleted successfully" });
   }
 );
